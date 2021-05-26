@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
     std::string fileName = "file";
     std::string targetFile;
     int numOfArgs = argc;
+    bool status = true;
 
     // if else depending on how data is being input into the program
     if (numOfArgs < 2 && !stdin_is_redirected) { //if no arg was passed and data is not redirected
@@ -72,18 +73,20 @@ int main(int argc, char** argv) {
     strcpy (targetKill, targetFile.c_str());
 
     std::ifstream parseFile(fileName);
-    std::ofstream asmFile(targetFile);
 
     if(!parseFile){
         std::cout << "sorry that file does not exist" << std::endl;
-        exit(0);
+        exit(-1);
     }
 
+    std::ofstream asmFile(targetFile);
+
+    
     nodeTK * top;
     top = parser(parseFile);
     //printParseTree(top);
 
-    bool status = true;
+    
     treeDecider(top, asmFile, status); // this runs the code gen and returns a fail message if this part failed
     asmFile.close();
     
